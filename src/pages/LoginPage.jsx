@@ -3,6 +3,7 @@ import { useState } from 'react'
 import Button from '../components/ui/Button'
 import useAuth from '../hooks/useAuth'
 import InputField from '../components/ui/InputField'
+import ThemeToggle from '../components/ui/ThemeToggle'
 
 export default function LoginPage() {
   const navigate = useNavigate()
@@ -10,6 +11,7 @@ export default function LoginPage() {
   const [form, setForm] = useState({ email: '', password: '' })
   const [errors, setErrors] = useState({})
   const [serverError, setServerError] = useState('')
+  const [submitting, setSubmitting] = useState(false)
 
   const validate = () => {
     const nextErrors = {}
@@ -39,16 +41,22 @@ export default function LoginPage() {
     }
 
     try {
+      setSubmitting(true)
       login(form)
       navigate('/app/dashboard')
     } catch (error) {
       setServerError(error.message)
+    } finally {
+      setSubmitting(false)
     }
   }
 
   return (
-    <div className="mx-auto flex min-h-screen max-w-md items-center px-5 py-10">
-      <div className="w-full rounded-3xl border border-[var(--stroke)] bg-white/80 p-7 shadow-xl backdrop-blur-sm">
+    <div className="relative mx-auto flex min-h-screen max-w-md items-center px-5 py-10">
+      <div className="absolute right-5 top-6">
+        <ThemeToggle />
+      </div>
+      <div className="w-full rounded-3xl border border-[var(--stroke)] bg-white/85 p-7 shadow-xl backdrop-blur-sm">
         <h1 className="text-3xl text-[var(--text)]">Welcome back</h1>
         <p className="mt-2 text-sm text-[var(--muted)]">
           Login to continue your student support conversations.
@@ -75,7 +83,7 @@ export default function LoginPage() {
             error={errors.password}
           />
 
-          <Button type="submit" className="w-full">
+          <Button type="submit" className="w-full" loading={submitting}>
             Login
           </Button>
 

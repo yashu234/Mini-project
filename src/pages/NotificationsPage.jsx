@@ -6,11 +6,15 @@ import { notifications } from '../utils/mockData'
 
 export default function NotificationsPage() {
   const [loading, setLoading] = useState(true)
+  const [activeFilter, setActiveFilter] = useState('all')
 
   useEffect(() => {
     const timeout = setTimeout(() => setLoading(false), 800)
     return () => clearTimeout(timeout)
   }, [])
+
+  const visibleNotifications =
+    activeFilter === 'all' ? notifications : notifications.slice(0, 1)
 
   return (
     <div className="mx-auto max-w-4xl space-y-5">
@@ -19,6 +23,31 @@ export default function NotificationsPage() {
         <p className="mt-2 text-[var(--muted)]">
           Important updates so you do not miss deadlines.
         </p>
+
+        <div className="mt-4 inline-flex rounded-xl border border-[var(--stroke)] bg-white p-1">
+          <button
+            type="button"
+            onClick={() => setActiveFilter('all')}
+            className={`rounded-lg px-3 py-1.5 text-xs font-medium transition ${
+              activeFilter === 'all'
+                ? 'bg-[var(--brand-soft)] text-[var(--brand)]'
+                : 'text-[var(--muted)] hover:bg-slate-50'
+            }`}
+          >
+            All
+          </button>
+          <button
+            type="button"
+            onClick={() => setActiveFilter('unread')}
+            className={`rounded-lg px-3 py-1.5 text-xs font-medium transition ${
+              activeFilter === 'unread'
+                ? 'bg-[var(--brand-soft)] text-[var(--brand)]'
+                : 'text-[var(--muted)] hover:bg-slate-50'
+            }`}
+          >
+            Unread
+          </button>
+        </div>
       </header>
 
       {loading ? (
@@ -27,9 +56,9 @@ export default function NotificationsPage() {
           <LoadingSkeleton className="h-24 w-full" />
           <LoadingSkeleton className="h-24 w-full" />
         </div>
-      ) : notifications.length > 0 ? (
+      ) : visibleNotifications.length > 0 ? (
         <div className="space-y-3">
-          {notifications.map((item) => (
+          {visibleNotifications.map((item) => (
             <NotificationItem key={item.id} {...item} />
           ))}
         </div>

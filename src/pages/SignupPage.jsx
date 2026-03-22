@@ -3,6 +3,7 @@ import { useState } from 'react'
 import Button from '../components/ui/Button'
 import useAuth from '../hooks/useAuth'
 import InputField from '../components/ui/InputField'
+import ThemeToggle from '../components/ui/ThemeToggle'
 
 export default function SignupPage() {
   const navigate = useNavigate()
@@ -10,6 +11,7 @@ export default function SignupPage() {
   const [form, setForm] = useState({ name: '', email: '', password: '', confirmPassword: '' })
   const [errors, setErrors] = useState({})
   const [serverError, setServerError] = useState('')
+  const [submitting, setSubmitting] = useState(false)
 
   const validate = () => {
     const nextErrors = {}
@@ -49,16 +51,22 @@ export default function SignupPage() {
     }
 
     try {
+      setSubmitting(true)
       signup(form)
       navigate('/app/dashboard')
     } catch (error) {
       setServerError(error.message)
+    } finally {
+      setSubmitting(false)
     }
   }
 
   return (
-    <div className="mx-auto flex min-h-screen max-w-md items-center px-5 py-10">
-      <div className="w-full rounded-3xl border border-[var(--stroke)] bg-white/80 p-7 shadow-xl backdrop-blur-sm">
+    <div className="relative mx-auto flex min-h-screen max-w-md items-center px-5 py-10">
+      <div className="absolute right-5 top-6">
+        <ThemeToggle />
+      </div>
+      <div className="w-full rounded-3xl border border-[var(--stroke)] bg-white/85 p-7 shadow-xl backdrop-blur-sm">
         <h1 className="text-3xl text-[var(--text)]">Create account</h1>
         <p className="mt-2 text-sm text-[var(--muted)]">
           Start your support journey in under a minute.
@@ -106,7 +114,7 @@ export default function SignupPage() {
             error={errors.confirmPassword}
           />
 
-          <Button type="submit" className="w-full">
+          <Button type="submit" className="w-full" loading={submitting}>
             Sign Up
           </Button>
 

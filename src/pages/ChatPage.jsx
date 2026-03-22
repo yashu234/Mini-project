@@ -7,6 +7,7 @@ import Card from '../components/ui/Card'
 import useAuth from '../hooks/useAuth'
 import EmptyState from '../components/ui/EmptyState'
 import useAutoScroll from '../hooks/useAutoScroll'
+import { chatQuickPrompts, generateAiResponse } from '../utils/mockData'
 
 function formatTime() {
   return new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
@@ -65,7 +66,7 @@ export default function ChatPage() {
       const aiMessage = {
         id: Date.now() + 1,
         from: 'ai',
-        text: `Thanks for asking. Here is a quick direction for "${latestPrompt}". I can also break this into step-by-step actions if you want.`,
+        text: generateAiResponse(latestPrompt),
         time: formatTime(),
       }
 
@@ -80,9 +81,22 @@ export default function ChatPage() {
     <div className="mx-auto max-w-4xl">
       <Card
         title="Student Support Chat"
-        subtitle="Ask anything and get clear, calm guidance"
+        subtitle="Ask anything and get clear, calm guidance with realistic next steps"
         className="flex h-[78vh] flex-col"
       >
+        <div className="mb-4 flex flex-wrap gap-2">
+          {chatQuickPrompts.map((item) => (
+            <button
+              type="button"
+              key={item}
+              onClick={() => setPrompt(item)}
+              className="rounded-full border border-[var(--stroke)] bg-white px-3 py-1.5 text-xs text-[var(--text)] transition hover:bg-[var(--brand-soft)]"
+            >
+              {item}
+            </button>
+          ))}
+        </div>
+
         <div ref={scrollRef} className="mb-4 flex-1 space-y-3 overflow-y-auto pr-1">
           {!hasMessages && (
             <EmptyState
@@ -108,9 +122,9 @@ export default function ChatPage() {
             value={prompt}
             onChange={(event) => setPrompt(event.target.value)}
             placeholder="Ask anything about exams, fees, or timetable..."
-            className="w-full rounded-2xl border border-[var(--stroke)] bg-white px-4 py-3 text-sm outline-none transition focus:border-[var(--brand)] focus:ring-4 focus:ring-emerald-100"
+            className="w-full rounded-2xl border border-[var(--stroke)] bg-[var(--surface)] px-4 py-3 text-sm text-[var(--text)] outline-none transition placeholder:text-slate-400 focus:border-[var(--brand)] focus:ring-4 focus:ring-emerald-100"
           />
-          <Button type="submit" className="inline-flex items-center gap-2 px-4">
+          <Button type="submit" className="px-4" disabled={!prompt.trim() || typing}>
             <SendHorizontal size={16} />
             Send
           </Button>

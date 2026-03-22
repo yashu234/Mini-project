@@ -1,9 +1,11 @@
 import { useEffect, useState } from 'react'
-import { Outlet, useNavigate } from 'react-router-dom'
+import { Outlet, useLocation, useNavigate } from 'react-router-dom'
 import Sidebar from '../components/Sidebar'
+import ThemeToggle from '../components/ui/ThemeToggle'
 import useAuth from '../hooks/useAuth'
 
 export default function MainLayout() {
+  const location = useLocation()
   const navigate = useNavigate()
   const { logout, user } = useAuth()
   const [collapsed, setCollapsed] = useState(() => window.matchMedia('(max-width: 767px)').matches)
@@ -40,8 +42,14 @@ export default function MainLayout() {
         />
       )}
 
-      <main className="relative z-10 min-h-screen p-4 pt-16 transition duration-300 md:p-8 md:pt-8">
-        <Outlet />
+      <div className="fixed right-16 top-4 z-40 md:right-8 md:top-8">
+        <ThemeToggle />
+      </div>
+
+      <main className="relative z-10 min-h-screen bg-transparent p-4 pt-16 transition duration-300 md:p-8 md:pt-8">
+        <div key={location.pathname} className="animate-page-enter">
+          <Outlet />
+        </div>
       </main>
     </div>
   )

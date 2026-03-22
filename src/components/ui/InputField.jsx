@@ -18,7 +18,7 @@ export default function InputField({
       <input
         id={id}
         className={cn(
-          'w-full rounded-2xl border border-[var(--stroke)] bg-white px-4 py-3 text-sm outline-none transition placeholder:text-slate-400 focus:border-[var(--brand)] focus:ring-4 focus:ring-emerald-100',
+          'w-full rounded-2xl border border-[var(--stroke)] bg-[var(--surface)] px-4 py-3 text-sm text-[var(--text)] outline-none transition placeholder:text-slate-400 focus:border-[var(--brand)] focus:ring-4 focus:ring-emerald-100',
           error && 'border-rose-300 bg-rose-50 focus:border-rose-400 focus:ring-rose-100',
           inputClassName,
         )}

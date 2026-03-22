@@ -8,7 +8,10 @@ export default function useAutoScroll(dependency) {
       return
     }
 
-    containerRef.current.scrollTop = containerRef.current.scrollHeight
+    containerRef.current.scrollTo({
+      top: containerRef.current.scrollHeight,
+      behavior: 'smooth',
+    })
   }, [dependency])
 
   return containerRef

@@ -33,18 +33,18 @@ export default function Sidebar({ collapsed, onToggle, onLogout, userName, userE
 
       <aside
         className={cn(
-          'fixed left-0 top-0 z-30 flex h-full w-72 flex-col border-r border-[var(--stroke)] bg-white/85 p-5 backdrop-blur-md transition-transform duration-300 md:sticky md:translate-x-0',
+          'fixed left-0 top-0 z-30 flex h-full w-72 flex-col border-r border-[var(--stroke)] bg-[var(--panel)] p-5 backdrop-blur-md transition-transform duration-300 md:sticky md:translate-x-0',
           collapsed ? '-translate-x-full md:w-24 md:translate-x-0' : 'translate-x-0',
         )}
       >
         <div className="mb-8 flex items-center gap-3 px-2">
           <div className="flex size-9 items-center justify-center rounded-2xl bg-[var(--brand)] text-sm font-semibold text-white">
-            SS
+            CS
           </div>
           {!collapsed && (
             <div>
-              <p className="text-sm font-semibold text-[var(--text)]">Smart Support</p>
-              <p className="text-xs text-[var(--muted)]">Student companion</p>
+              <p className="text-sm font-semibold text-[var(--text)]">CampusSync</p>
+              <p className="text-xs text-[var(--muted)]">Smart Student Support</p>
             </div>
           )}
 
@@ -67,8 +67,8 @@ export default function Sidebar({ collapsed, onToggle, onLogout, userName, userE
                 cn(
                   'flex items-center gap-3 rounded-2xl px-3 py-2.5 text-sm font-medium transition',
                   isActive
-                    ? 'bg-[var(--brand-soft)] text-[var(--brand)]'
-                    : 'text-[var(--muted)] hover:bg-slate-100 hover:text-[var(--text)]',
+                    ? 'bg-[var(--brand-soft)] text-[var(--brand)] shadow-sm'
+                    : 'text-[var(--muted)] hover:-translate-y-0.5 hover:bg-slate-100 hover:text-[var(--text)]',
                 )
               }
             >
@@ -80,8 +80,8 @@ export default function Sidebar({ collapsed, onToggle, onLogout, userName, userE
 
         <div className="mt-auto space-y-3 px-2 pb-3 pt-4">
           {!collapsed && (
-            <div className="rounded-2xl bg-slate-100 p-3">
-              <p className="text-xs text-slate-500">Signed in as</p>
+            <div className="rounded-2xl border border-[var(--stroke)] bg-[var(--surface)] p-3">
+              <p className="text-xs text-[var(--muted)]">Signed in as</p>
               <p className="truncate text-sm font-semibold text-[var(--text)]">{userName}</p>
               <p className="truncate text-xs text-[var(--muted)]">{userEmail}</p>
             </div>
