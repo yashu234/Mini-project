@@ -1,20 +1,35 @@
-import { motion } from 'framer-motion'
 import { useEffect, useState } from 'react'
-import { Outlet } from 'react-router-dom'
+import { Outlet, useNavigate } from 'react-router-dom'
 import Sidebar from '../components/Sidebar'
+import useAuth from '../hooks/useAuth'
 
 export default function MainLayout() {
-  const [collapsed, setCollapsed] = useState(false)
+  const navigate = useNavigate()
+  const { logout, user } = useAuth()
+  const [collapsed, setCollapsed] = useState(() => window.matchMedia('(max-width: 767px)').matches)
 
   useEffect(() => {
-    if (window.matchMedia('(max-width: 767px)').matches) {
-      setCollapsed(true)
-    }
+    const media = window.matchMedia('(max-width: 767px)')
+    const updateState = () => setCollapsed(media.matches)
+
+    media.addEventListener('change', updateState)
+    return () => media.removeEventListener('change', updateState)
   }, [])
+
+  const handleLogout = () => {
+    logout()
+    navigate('/login')
+  }
 
   return (
     <div className="min-h-screen md:grid md:grid-cols-[auto_1fr]">
-      <Sidebar collapsed={collapsed} onToggle={() => setCollapsed((prev) => !prev)} />
+      <Sidebar
+        collapsed={collapsed}
+        onToggle={() => setCollapsed((prev) => !prev)}
+        onLogout={handleLogout}
+        userName={user?.name || 'Student'}
+        userEmail={user?.email || ''}
+      />
 
       {!collapsed && (
         <button
@@ -25,14 +40,9 @@ export default function MainLayout() {
         />
       )}
 
-      <motion.main
-        initial={{ opacity: 0, y: 6 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.3 }}
-        className="relative z-10 min-h-screen p-4 pt-16 md:p-8 md:pt-8"
-      >
+      <main className="relative z-10 min-h-screen p-4 pt-16 transition duration-300 md:p-8 md:pt-8">
         <Outlet />
-      </motion.main>
+      </main>
     </div>
   )
 }

@@ -46,12 +46,3 @@ export const notifications = [
     timestamp: 'Yesterday',
   },
 ]
-
-export const starterMessages = [
-  {
-    id: 1,
-    from: 'ai',
-    text: 'Hey Naitik, I am here to help. You can ask me about exams, fees, timetable, or any campus process.',
-    time: 'Now',
-  },
-]

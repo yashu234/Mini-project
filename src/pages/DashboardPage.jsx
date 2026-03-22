@@ -1,10 +1,11 @@
-import { motion } from 'framer-motion'
 import { useEffect, useState } from 'react'
 import Card from '../components/ui/Card'
+import useAuth from '../hooks/useAuth'
 import LoadingSkeleton from '../components/ui/LoadingSkeleton'
 import { recentQueries, suggestedQuestions } from '../utils/mockData'
 
 export default function DashboardPage() {
+  const { user } = useAuth()
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
@@ -14,16 +15,14 @@ export default function DashboardPage() {
 
   return (
     <div className="mx-auto max-w-6xl space-y-6">
-      <motion.header
-        initial={{ opacity: 0, y: 12 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.3 }}
-      >
-        <h1 className="text-3xl text-[var(--text)] sm:text-4xl">Good evening, Naitik</h1>
+      <header className="transition duration-300">
+        <h1 className="text-3xl text-[var(--text)] sm:text-4xl">
+          Good evening, {user?.name?.split(' ')[0] || 'Student'}
+        </h1>
         <p className="mt-2 text-[var(--muted)]">
           Here is a quick snapshot so you can continue where you left off.
         </p>
-      </motion.header>
+      </header>
 
       <div className="grid gap-5 lg:grid-cols-2">
         <Card

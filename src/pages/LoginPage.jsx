@@ -1,12 +1,15 @@
 import { Link, useNavigate } from 'react-router-dom'
 import { useState } from 'react'
 import Button from '../components/ui/Button'
+import useAuth from '../hooks/useAuth'
 import InputField from '../components/ui/InputField'
 
 export default function LoginPage() {
   const navigate = useNavigate()
+  const { login } = useAuth()
   const [form, setForm] = useState({ email: '', password: '' })
   const [errors, setErrors] = useState({})
+  const [serverError, setServerError] = useState('')
 
   const validate = () => {
     const nextErrors = {}
@@ -29,12 +32,18 @@ export default function LoginPage() {
 
   const handleSubmit = (event) => {
     event.preventDefault()
+    setServerError('')
 
     if (!validate()) {
       return
     }
 
-    navigate('/app/dashboard')
+    try {
+      login(form)
+      navigate('/app/dashboard')
+    } catch (error) {
+      setServerError(error.message)
+    }
   }
 
   return (
@@ -69,6 +78,8 @@ export default function LoginPage() {
           <Button type="submit" className="w-full">
             Login
           </Button>
+
+          {serverError && <p className="text-sm text-rose-500">{serverError}</p>}
         </form>
 
         <p className="mt-5 text-center text-sm text-[var(--muted)]">

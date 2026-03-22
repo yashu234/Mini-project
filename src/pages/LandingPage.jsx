@@ -1,4 +1,3 @@
-import { motion } from 'framer-motion'
 import { ArrowRight, CircleHelp, Sparkles } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import Button from '../components/ui/Button'
@@ -6,12 +5,7 @@ import Button from '../components/ui/Button'
 export default function LandingPage() {
   return (
     <div className="mx-auto flex min-h-screen max-w-6xl flex-col justify-center px-6 py-16 sm:px-10">
-      <motion.section
-        initial={{ opacity: 0, y: 14 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-        className="grid gap-10 rounded-[2rem] border border-[var(--stroke)] bg-white/75 p-8 shadow-xl backdrop-blur-sm lg:grid-cols-2 lg:p-14"
-      >
+      <section className="grid gap-10 rounded-[2rem] border border-[var(--stroke)] bg-white/75 p-8 shadow-xl backdrop-blur-sm transition duration-300 lg:grid-cols-2 lg:p-14">
         <div>
           <div className="mb-4 inline-flex items-center gap-2 rounded-full bg-[var(--brand-soft)] px-3 py-1 text-xs font-semibold text-[var(--brand)]">
             <Sparkles size={14} />
@@ -61,7 +55,7 @@ export default function LandingPage() {
             Always-available help that speaks your language.
           </div>
         </div>
-      </motion.section>
+      </section>
     </div>
   )
 }

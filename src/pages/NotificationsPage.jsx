@@ -1,4 +1,3 @@
-import { motion } from 'framer-motion'
 import { useEffect, useState } from 'react'
 import NotificationItem from '../components/NotificationItem'
 import EmptyState from '../components/ui/EmptyState'
@@ -15,16 +14,12 @@ export default function NotificationsPage() {
 
   return (
     <div className="mx-auto max-w-4xl space-y-5">
-      <motion.header
-        initial={{ opacity: 0, y: 12 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.3 }}
-      >
+      <header className="transition duration-300">
         <h1 className="text-3xl text-[var(--text)] sm:text-4xl">Notifications</h1>
         <p className="mt-2 text-[var(--muted)]">
           Important updates so you do not miss deadlines.
         </p>
-      </motion.header>
+      </header>
 
       {loading ? (
         <div className="space-y-3">

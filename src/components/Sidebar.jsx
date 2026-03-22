@@ -1,6 +1,7 @@
 import {
   Bell,
   LayoutDashboard,
+  LogOut,
   Menu,
   MessageCircle,
   PanelLeftClose,
@@ -18,7 +19,7 @@ const navItems = [
   { to: '/app/profile', label: 'Profile', icon: UserCircle },
 ]
 
-export default function Sidebar({ collapsed, onToggle }) {
+export default function Sidebar({ collapsed, onToggle, onLogout, userName, userEmail }) {
   return (
     <>
       <button
@@ -32,7 +33,7 @@ export default function Sidebar({ collapsed, onToggle }) {
 
       <aside
         className={cn(
-          'fixed left-0 top-0 z-30 h-full w-72 border-r border-[var(--stroke)] bg-white/85 p-5 backdrop-blur-md transition-transform duration-300 md:sticky md:translate-x-0',
+          'fixed left-0 top-0 z-30 flex h-full w-72 flex-col border-r border-[var(--stroke)] bg-white/85 p-5 backdrop-blur-md transition-transform duration-300 md:sticky md:translate-x-0',
           collapsed ? '-translate-x-full md:w-24 md:translate-x-0' : 'translate-x-0',
         )}
       >
@@ -58,10 +59,10 @@ export default function Sidebar({ collapsed, onToggle }) {
         </div>
 
         <nav className="space-y-2">
-          {navItems.map(({ to, label, icon: Icon }) => (
+          {navItems.map((item) => (
             <NavLink
-              key={to}
-              to={to}
+              key={item.to}
+              to={item.to}
               className={({ isActive }) =>
                 cn(
                   'flex items-center gap-3 rounded-2xl px-3 py-2.5 text-sm font-medium transition',
@@ -71,11 +72,33 @@ export default function Sidebar({ collapsed, onToggle }) {
                 )
               }
             >
-              <Icon size={17} />
-              {!collapsed && <span>{label}</span>}
+              <item.icon size={17} />
+              {!collapsed && <span>{item.label}</span>}
             </NavLink>
           ))}
         </nav>
+
+        <div className="mt-auto space-y-3 px-2 pb-3 pt-4">
+          {!collapsed && (
+            <div className="rounded-2xl bg-slate-100 p-3">
+              <p className="text-xs text-slate-500">Signed in as</p>
+              <p className="truncate text-sm font-semibold text-[var(--text)]">{userName}</p>
+              <p className="truncate text-xs text-[var(--muted)]">{userEmail}</p>
+            </div>
+          )}
+
+          <button
+            type="button"
+            onClick={onLogout}
+            className={cn(
+              'flex w-full items-center gap-3 rounded-2xl border border-[var(--stroke)] px-3 py-2.5 text-sm font-medium text-[var(--muted)] transition hover:bg-rose-50 hover:text-rose-600',
+              collapsed && 'justify-center',
+            )}
+          >
+            <LogOut size={16} />
+            {!collapsed && <span>Logout</span>}
+          </button>
+        </div>
       </aside>
     </>
   )

@@ -1,12 +1,15 @@
 import { Link, useNavigate } from 'react-router-dom'
 import { useState } from 'react'
 import Button from '../components/ui/Button'
+import useAuth from '../hooks/useAuth'
 import InputField from '../components/ui/InputField'
 
 export default function SignupPage() {
   const navigate = useNavigate()
-  const [form, setForm] = useState({ name: '', email: '', password: '' })
+  const { signup } = useAuth()
+  const [form, setForm] = useState({ name: '', email: '', password: '', confirmPassword: '' })
   const [errors, setErrors] = useState({})
+  const [serverError, setServerError] = useState('')
 
   const validate = () => {
     const nextErrors = {}
@@ -27,18 +30,30 @@ export default function SignupPage() {
       nextErrors.password = 'Use at least 6 characters for better security.'
     }
 
+    if (!form.confirmPassword.trim()) {
+      nextErrors.confirmPassword = 'Please confirm your password.'
+    } else if (form.confirmPassword !== form.password) {
+      nextErrors.confirmPassword = 'Passwords do not match.'
+    }
+
     setErrors(nextErrors)
     return Object.keys(nextErrors).length === 0
   }
 
   const handleSubmit = (event) => {
     event.preventDefault()
+    setServerError('')
 
     if (!validate()) {
       return
     }
 
-    navigate('/app/dashboard')
+    try {
+      signup(form)
+      navigate('/app/dashboard')
+    } catch (error) {
+      setServerError(error.message)
+    }
   }
 
   return (
@@ -79,9 +94,23 @@ export default function SignupPage() {
             error={errors.password}
           />
 
+          <InputField
+            id="confirmPassword"
+            label="Confirm Password"
+            type="password"
+            value={form.confirmPassword}
+            onChange={(event) =>
+              setForm((prev) => ({ ...prev, confirmPassword: event.target.value }))
+            }
+            placeholder="Re-enter your password"
+            error={errors.confirmPassword}
+          />
+
           <Button type="submit" className="w-full">
             Sign Up
           </Button>
+
+          {serverError && <p className="text-sm text-rose-500">{serverError}</p>}
         </form>
 
         <p className="mt-5 text-center text-sm text-[var(--muted)]">

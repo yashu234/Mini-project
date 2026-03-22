@@ -4,16 +4,30 @@ import ChatBubble from '../components/ChatBubble'
 import TypingIndicator from '../components/TypingIndicator'
 import Button from '../components/ui/Button'
 import Card from '../components/ui/Card'
+import useAuth from '../hooks/useAuth'
 import EmptyState from '../components/ui/EmptyState'
 import useAutoScroll from '../hooks/useAutoScroll'
-import { starterMessages } from '../utils/mockData'
 
 function formatTime() {
   return new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
 }
 
+function getStarterMessage(name) {
+  const firstName = name?.split(' ')[0] || 'there'
+
+  return [
+    {
+      id: 1,
+      from: 'ai',
+      text: `Hey ${firstName}, I am here to help. You can ask me about exams, fees, timetable, or any campus process.`,
+      time: 'Now',
+    },
+  ]
+}
+
 export default function ChatPage() {
-  const [messages, setMessages] = useState(starterMessages)
+  const { user } = useAuth()
+  const [messages, setMessages] = useState(() => getStarterMessage(user?.name))
   const [prompt, setPrompt] = useState('')
   const [typing, setTyping] = useState(false)
 

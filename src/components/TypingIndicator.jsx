@@ -1,5 +1,3 @@
-import { motion } from 'framer-motion'
-
 export default function TypingIndicator() {
   const dots = [0, 1, 2]
 
@@ -8,12 +6,10 @@ export default function TypingIndicator() {
       <span>AI is typing</span>
       <div className="flex items-center gap-1">
         {dots.map((dot) => (
-          <motion.span
-            // The delay gives each dot a gentle sequential bounce.
+          <span
             key={dot}
-            className="size-1.5 rounded-full bg-[var(--muted)]"
-            animate={{ y: [0, -3, 0], opacity: [0.4, 1, 0.4] }}
-            transition={{ duration: 0.9, repeat: Infinity, delay: dot * 0.15 }}
+            className="size-1.5 animate-pulse rounded-full bg-[var(--muted)]"
+            style={{ animationDelay: `${dot * 0.18}s` }}
           />
         ))}
       </div>
