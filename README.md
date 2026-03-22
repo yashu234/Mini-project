@@ -1,16 +1,48 @@
-# React + Vite
+# Smart Student Support System
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Description
 
-Currently, two official plugins are available:
+Smart Student Support System is a frontend web application designed to improve communication between students and institutions using an AI-based support system.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+It gives instant responses to student questions and helps reduce manual workload for support teams.
 
-## React Compiler
+## Features
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- AI chat interface for student queries
+- Student dashboard with recent queries and suggestions
+- Notifications page for updates
+- Login and signup interface
+- Responsive and modern UI design
 
-## Expanding the ESLint configuration
+## Tech Stack
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+- React (Vite)
+- Tailwind CSS
+- React Router
+- Framer Motion
+
+## Project Structure
+
+- components: Reusable UI parts like buttons, cards, and chat elements
+- pages: Main screens such as Dashboard, Chat, Login, and Notifications
+- layouts: Shared layout structure, including sidebar navigation
+- hooks: Custom React hooks for reusable logic
+- utils: Helper functions and static data
+
+## How to Run the Project
+
+1. Install dependencies:
+	npm install
+2. Run the development server:
+	npm run dev
+3. Open in browser:
+	localhost (shown in terminal, usually localhost:5173)
+
+## Current Status
+
+- Frontend is completed
+- Backend and AI integration will be added later
+
+## Purpose
+
+This project is built as a learning project to demonstrate modern frontend development and AI-based system design in education.
